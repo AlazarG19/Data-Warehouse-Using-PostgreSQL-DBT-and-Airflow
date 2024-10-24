@@ -3,6 +3,7 @@ import csv
 csv.field_size_limit(10**8)
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
+from airflow.operators.bash import BashOperator
 from airflow.providers.postgres.operators.postgres import PostgresOperator
 from datetime import datetime
 import pandas as pd
@@ -159,6 +160,7 @@ def insert_data(**kwargs):
     conn.close()
 
 
+
 default_args = {
     'owner': 'alazar',
     'start_date': datetime(2024, 10, 23),
@@ -195,5 +197,22 @@ with DAG('csv_to_postgres_with_db_check', default_args=default_args, schedule_in
         provide_context=True
     )
 
+    # Task to run dbt models
+    dbt_run = BashOperator(
+        task_id='dbt_run',
+        # bash_command=f'''
+        # cd ./dbt &&  # Navigate to your dbt project directory
+        # dbt compile               # Compile and run DBT
+        # dbt run                   # Run dbt
+        # ''',
+        bash_command="""
+                    source "/mnt/c/Users/alaza/Desktop/New Programming/Airflow venv/venv/bin/activate" &&  # Activate the virtual environment
+                    cd "/mnt/c/Users/alaza/Desktop/New Programming/Airflow venv/dbt" &&  # Navigate to your dbt project directory
+                    pwd
+                    dbt compile --profiles-dir "/mnt/c/Users/alaza/Desktop/New Programming/Airflow venv/dbt" &&  # Specify the correct profiles directory
+                    dbt run --profiles-dir "/mnt/c/Users/alaza/Desktop/New Programming/Airflow venv/dbt"         # Run the dbt models with the correct profiles directory
+                    """
+    )
+
     # Define task dependencies
-    load_and_transform_data_task >> check_db_task >> create_tables_task >> insert_data_task
+    load_and_transform_data_task >> check_db_task >> create_tables_task >> insert_data_task >>dbt_run
