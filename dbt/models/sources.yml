@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: fact_df_table  # Your source name
+    database: airflow_traffic_db  # Your database name
+    schema: public  # Your schema name
+    tables:
+      - name: fact_df  # Your table name
+      
+  - name: dimensional_df_table  # Your source name
+    database: airflow_traffic_db  # Your database name
+    schema: public  # Your schema name
+    tables:
+      - name: dimensional_df  # Your table name

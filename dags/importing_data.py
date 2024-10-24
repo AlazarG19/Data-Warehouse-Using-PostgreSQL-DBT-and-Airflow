@@ -8,7 +8,9 @@ from datetime import datetime
 import pandas as pd
 import psycopg2
 from psycopg2 import sql
-file_path = './data/20181024_d1_0830_0900.csv'
+from pathlib import Path
+
+file_path = '../data/20181024_d1_0830_0900.csv'
 # Define your PostgreSQL connection parameters
 conn_params = {
     
@@ -25,6 +27,13 @@ def split_list_into_parts(input_list, part_size):
 
 
 def load_and_transform_data(**kwargs):
+    
+    # Get the current working directory
+    current_directory = Path.cwd()
+
+    # Print the current directory
+    print("Current Directory:", current_directory)
+
     with open(file_path, newline='') as csvfile:
         csv_reader = csv.reader(csvfile)
         i = 0
@@ -55,8 +64,8 @@ def load_and_transform_data(**kwargs):
                     dimensions.insert(0, track_id)
                     dimension_df.loc[len(dimension_df)] = dimensions
             i+=1
-        fact_df.to_csv("./data/fact_df.csv", index=False)   
-        dimension_df.to_csv("./data/dimension_df.csv", index=False)   
+        fact_df.to_csv("../data/fact_df.csv", index=False)   
+        dimension_df.to_csv("../data/dimension_df.csv", index=False)   
 
 def check_db_connection(**kwargs):
     try:
@@ -108,8 +117,9 @@ def create_tables(**kwargs):
 
 def insert_data(**kwargs):
     # Define the paths to your CSV files
-    fact_csv_path = './data/fact_df.csv'  # Change this to your actual CSV path
-    dimensional_csv_path = './data/dimension_df.csv'  # Change this to your actual CSV path
+    fact_csv_path = '../data/fact_df.csv'  # Change this to your actual CSV path
+    dimensional_csv_path = '../data/dimension_df.csv'  # Change this to your actual CSV path
+
 
     # Read the CSV files into DataFrames
     fact_df = pd.read_csv(fact_csv_path)
@@ -121,6 +131,7 @@ def insert_data(**kwargs):
 
     # Insert data into fact_df
     for index, row in fact_df.iterrows():
+        print(index)
         cursor.execute("""
             INSERT INTO fact_df (track_id, type, traveled_d, avg_speed) 
             VALUES (%s, %s, %s, %s)
@@ -128,15 +139,25 @@ def insert_data(**kwargs):
 
     # Insert data into dimensional_df
     for index, row in dimensional_df.iterrows():
+        print(index)
         cursor.execute("""
-            INSERT INTO dimensional_df (track_id, lat, lon, speed, ion_acc, lat_acc, time) 
+            INSERT INTO dimensional_df (track_id, lat, lon, speed, lon_acc, lat_acc, time) 
             VALUES (%s, %s, %s, %s, %s, %s, %s)
-        """, (row['track_id'], row['lat'], row['lon'], row['speed'], row['lon_acc'], row['lat_acc'], row['time']))
+        """, (
+            int(row['track_id']),
+            float(row['lat']),
+            float(row['lon']),
+            float(row['speed']),
+            float(row['lon_acc']),
+            float(row['lat_acc']),
+            float(row['time'])
+        ))
 
     # Commit the changes and close the connection
     conn.commit()
     cursor.close()
     conn.close()
+
 
 default_args = {
     'owner': 'alazar',
