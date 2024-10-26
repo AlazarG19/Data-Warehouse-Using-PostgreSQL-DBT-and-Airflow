@@ -9,7 +9,8 @@ my_profile:
     dev:
       type: postgres
       threads: 1
-      host: 172.31.98.138         # e.g., localhost or IP address
+      host: 192.168.1.8         # e.g., localhost or IP address
+      # host: 172.31.98.138         # e.g., localhost or IP address
       port: 5432                        # Default PostgreSQL port
       user: postgres               # Your PostgreSQL username
       password: password           # Your PostgreSQL password

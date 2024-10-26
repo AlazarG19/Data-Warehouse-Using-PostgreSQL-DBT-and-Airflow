@@ -1,0 +1,30 @@
+version: 2
+models:
+  - name: average_distance_by_vehicle_type
+    description: This model calculates average distance traveled for each vehicle type.
+
+  - name: average_speed_by_vehicle_type
+    description: This model calculate the average speed of each vehicle type
+    
+
+  - name: location_density_analysis
+    description: This model analyzes the density of vehicles by latitude and longitude.
+    
+
+  - name: location_traffic_analysis
+    description: This model analyzes traffic data by latitude and longitude
+
+  - name: performance_summary_by_type
+    description: This model summarizes performance metrics (avg speed, total distance) by vehicle type.
+    
+  - name: route_efficiency
+    description: This model analyzes average speed against distance travled
+    
+  - name: total_distance_traveled_by_type
+    description: This model sums the total distance traveled by each vehicle type.
+    
+  - name: vehicle_type_distribution
+    description: This model shows distribution of vehicle types
+
+  - name: vehicle_type_proportion
+    description: This model shows the proportion of each vehicle type in the dataset.
