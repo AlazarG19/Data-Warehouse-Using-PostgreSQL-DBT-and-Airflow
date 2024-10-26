@@ -11,7 +11,7 @@ import psycopg2
 from psycopg2 import sql
 from pathlib import Path
 
-file_path = '../data/20181024_d1_0830_0900.csv'
+file_path = './data/20181024_d1_0830_0900.csv'
 # Define your PostgreSQL connection parameters
 conn_params = {
     
@@ -41,8 +41,6 @@ def load_and_transform_data(**kwargs):
         # Read each row one by one
         for line_number, row in enumerate(csv_reader):
             # Process individual lines as needed
-            if(i == 10):
-                break
             if (i == 0):
                 # create the column names for the fact and dimensional table
                 columns = row[0]
@@ -65,8 +63,8 @@ def load_and_transform_data(**kwargs):
                     dimensions.insert(0, track_id)
                     dimension_df.loc[len(dimension_df)] = dimensions
             i+=1
-        fact_df.to_csv("../data/fact_df.csv", index=False)   
-        dimension_df.to_csv("../data/dimension_df.csv", index=False)   
+        fact_df.to_csv("./data/fact_df.csv", index=False)   
+        dimension_df.to_csv("./data/dimension_df.csv", index=False)   
 
 def check_db_connection(**kwargs):
     try:
@@ -88,7 +86,7 @@ def create_tables(**kwargs):
     create_fact_table = """
     CREATE TABLE IF NOT EXISTS fact_df (
         track_id INTEGER PRIMARY KEY,
-        type VARCHAR(50),
+        type VARCHAR(50), 
         traveled_d FLOAT,
         avg_speed FLOAT
     )
@@ -118,8 +116,8 @@ def create_tables(**kwargs):
 
 def insert_data(**kwargs):
     # Define the paths to your CSV files
-    fact_csv_path = '../data/fact_df.csv'  # Change this to your actual CSV path
-    dimensional_csv_path = '../data/dimension_df.csv'  # Change this to your actual CSV path
+    fact_csv_path = './data/fact_df.csv'  # Change this to your actual CSV path
+    dimensional_csv_path = './data/dimension_df.csv'  # Change this to your actual CSV path
 
 
     # Read the CSV files into DataFrames
