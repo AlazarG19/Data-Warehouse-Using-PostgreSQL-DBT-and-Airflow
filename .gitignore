@@ -1,2 +1,9 @@
 /venv
 /data
+airflow.cfg
+airflow.db
+/dags/__pycache__
+/logs
+/webserver_config.py 
+/standalone_admin_password.txt
+.env
