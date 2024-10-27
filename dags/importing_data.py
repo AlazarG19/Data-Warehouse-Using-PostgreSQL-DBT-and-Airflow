@@ -10,18 +10,19 @@ import pandas as pd
 import psycopg2
 from psycopg2 import sql
 from pathlib import Path
+from dotenv import load_dotenv
+import os
 
-file_path = './data/20181024_d1_0830_0900.csv'
+file_path = os.getenv("FILE_PATH")
 # Define your PostgreSQL connection parameters
 conn_params = {
     
-            "host":"172.31.98.138",
-            "database":"airflow_traffic_db",
-            "port":"5432",
-            "user":"postgres",
-            "password":"password"
+            "host":os.getenv("HOST"),
+            "database":os.getenv("DATABASE"),
+            "port":os.getenv("PORT"),
+            "user":os.getenv("USER"),
+            "password":os.getenv("PASSWORD")
         }
-import os
 
 def split_list_into_parts(input_list, part_size):
     return [input_list[i:i + part_size] for i in range(0, len(input_list), part_size)]
@@ -34,6 +35,8 @@ def load_and_transform_data(**kwargs):
 
     # Print the current directory
     print("Current Directory:", current_directory)
+    print(conn_params)
+    print(file_path)
 
     with open(file_path, newline='') as csvfile:
         csv_reader = csv.reader(csvfile)

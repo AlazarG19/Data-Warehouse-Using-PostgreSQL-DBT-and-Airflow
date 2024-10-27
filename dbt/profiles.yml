@@ -9,10 +9,9 @@ my_profile:
     dev:
       type: postgres
       threads: 1
-      host: 192.168.1.8         # e.g., localhost or IP address
-      # host: 172.31.98.138         # e.g., localhost or IP address
-      port: 5432                        # Default PostgreSQL port
-      user: postgres               # Your PostgreSQL username
-      password: password           # Your PostgreSQL password
-      dbname: airflow_traffic_db             # Your database name
+      host: "{{ env_var('HOST') }}"         # e.g., localhost or IP address
+      port: "{{ env_var('PORT') | as_number }}"                        # Default PostgreSQL port
+      user: "{{ env_var('USER') }}"               # Your PostgreSQL username
+      password: "{{ env_var('PASSWORD') }}"           # Your PostgreSQL password
+      dbname: "{{ env_var('DATABASE') }}"            # Your database name
       schema: public               # Schema where dbt will create tables/views

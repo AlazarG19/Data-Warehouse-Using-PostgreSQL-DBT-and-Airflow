@@ -6,4 +6,5 @@ airflow.db
 /logs
 /webserver_config.py 
 /standalone_admin_password.txt
-.env
+/dags/.env
+/dbt/.env
