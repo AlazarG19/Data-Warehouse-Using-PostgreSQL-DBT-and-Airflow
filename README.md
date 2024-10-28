@@ -153,7 +153,7 @@ http://localhost:8080
 
 
 ## Visualisations from the powerbi
-![Visualisation 1]("./visualisation/1.jpg")
+![Visualisation 1]("/visualisation/1.jpg")
 ![Visualisation 2]("./visualisation/2.jpg")
 ![Visualisation 3]("./visualisation/3.jpg")
 
