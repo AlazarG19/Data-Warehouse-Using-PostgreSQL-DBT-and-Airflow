@@ -158,7 +158,7 @@ http://localhost:8080
 ![Visualisation 3]("./visualisation/3.jpg")
 
 ## Visualisations from the dbt docs 
-![Average Distance by Vehicle Type]("./dbt/dbt_docs/average_distance_by_vehilce_type.png")
+![Average Distance by Vehicle Type]("dbt/dbt_docs/average_distance_by_vehilce_type.png")
 ![Average Speed by Vehicle Type]("./dbt/dbt_docs/average_speed_by_vehilce_type.png")
 ![Location Density Analysis ]("./dbt/dbt_docs/location_density_analysis.png")
 ![Location Traffic Analysis ]("./dbt/dbt_docs/location_traffic_analysis.png")
